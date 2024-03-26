@@ -1,0 +1,33 @@
+{% extends "network/layout.html" %} {% block body %}
+
+<div class="container">
+  <div class="row my-2">
+    <div class="col-2"><h3>{{ user_name }}</h3></div>
+    <div class="col-1">
+      {% if follow_button_visibility %}
+      <form method="post">
+        {% csrf_token %}
+        <input
+          class="btn btn-primary"
+          type="submit"
+          name="follow"
+          value="{{ follow_txt }}"
+        />
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col-2">following: {{ following_count }}</div>
+    <div class="col-2">followers: {{ followers_count }}</div>
+  </div>
+
+  <div class="row my-2">
+    <div class="col">{% include "network/pagination.html" %}</div>
+  </div>
+
+  
+</div>
+
+{% endblock %}

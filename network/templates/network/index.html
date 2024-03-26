@@ -1,0 +1,24 @@
+{% extends "network/layout.html" %}
+ {% block body %}
+<div>
+    <h3 class="ml-2">All Posts</h3>
+    {% if user.is_authenticated %}
+    <div class="border  p-4 m-3">
+        <h3>New Post:</h3>
+        <form method="post" >
+            {% csrf_token %}
+            <div class="ml-2 mr-4">
+                <textarea name="text" class="form-control mb-2" placeholder="Body" rows="4"></textarea>
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+
+    {% include "network/pagination.html" %}
+
+
+</div>
+
+{% endblock %}

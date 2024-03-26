@@ -1,0 +1,46 @@
+{% load static %}
+
+{% for post in pagination_data.page_obj %}
+<div class="border p-4 m-3">
+    <input type="hidden" class="post-id" value="{{ post.id }}"/>
+    <a href="{% url 'profile_page' post.user %}">
+        <h4 class="text-secondary">{{ post.user }}</h4>
+    </a>
+    {% if user.is_authenticated and post.user == user %}
+    <div class="mb-2 btn text-primary edit-post">Edit</div>
+    {% endif %}
+    <div class="post-text">{{ post.text }}</div>
+    <hr>
+    <p class="post-timestamp"><em>{{ post.timestamp }}</em></p>
+
+      <div class="col like-button" data-post-id="{{ post.id }}" onclick="toggleLike(this)">
+        {% if user in post.likes.all %}
+      <span class="like-icon">&#10084;</span>
+      {% else %}
+      <span class="like-icon">&#129293;</span>
+      {% endif %}
+      <span class="like-count">{{ post.serialize.like_count }}</span> 
+  </div>
+
+  </div>
+{% endfor %}
+
+
+{% if pagination_data.paginator %}
+<nav aria-label="Page navigation example" class="d-flex justify-content-center">
+    <ul class="pagination">
+    {% if pagination_data.page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ pagination_data.page_obj.previous_page_number }}">Previous</a></li>
+    {% endif %}
+      <li class="page-item"><a class="page-link">Page {{ pagination_data.page_obj.number }}</a></li>
+    {% if pagination_data.page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ pagination_data.page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+
